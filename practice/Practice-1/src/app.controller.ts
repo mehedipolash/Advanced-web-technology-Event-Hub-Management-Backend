@@ -20,11 +20,6 @@ export class AppController {
     return this.appService.getPhotoService(photoid);
   }
 
-  @Post('pic')
-  createPhoto(): string {
-    return this.appService.createPhoto();
-  }
-
   @Post('pics')
   createPhoto1(@Body('jk') x: string): string {
     return this.appService.createPhoto1Service(x);

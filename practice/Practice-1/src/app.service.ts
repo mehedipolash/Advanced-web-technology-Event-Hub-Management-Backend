@@ -14,14 +14,7 @@ export class AppService {
     return `Photo ${photoid}`;
   }
 
-  createPhoto(): string {
-    return 'Photo created!';
-  }
-
   createPhoto1Service(x: string): string {
-    return `Created with param: ${x}`;
+    return `Data Created with : ${x}`;
   }
-  // createInfoService(value: object): string{
-  //   return 
-  // }
 }
