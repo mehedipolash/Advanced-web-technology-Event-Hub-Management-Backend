@@ -24,6 +24,14 @@ export class StudentService {
     return { status: 200, message: `Successfully deleted ID: ${id}` };
   }
 
+  getBio(BioId: number): string {
+    return `Bio ${BioId}`;
+  }
+
+  getBioBool(flag: boolean): string {
+    return `BioBool : ${flag}`;
+  }
+
   getAStudent(name: string, roll: string): object {
     return {
       status: 200,

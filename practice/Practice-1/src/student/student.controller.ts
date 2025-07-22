@@ -4,6 +4,8 @@ import {
   Delete,
   Get,
   Param,
+  ParseBoolPipe,
+  ParseIntPipe,
   Post,
   Query,
 } from '@nestjs/common';
@@ -38,5 +40,14 @@ export class StudentController {
     @Query('roll') roll: string,
   ): object {
     return this.studentService.getAStudent(name, roll);
+  }
+
+  @Get('bio/:id')
+  getBio(@Param('id', ParseIntPipe) Bioid: number): string {
+    return this.studentService.getBio(Bioid);
+  }
+  @Get('bioo/:flag')
+  getBioBool(@Param('flag', ParseBoolPipe) flag: boolean): string {
+    return this.studentService.getBioBool(flag);
   }
 }

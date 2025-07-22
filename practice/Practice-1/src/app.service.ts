@@ -7,6 +7,7 @@ export class AppService {
   }
 
   getStudent(): string {
+    console.log('hello from getStudent');
     return 'Student Data';
   }
 
