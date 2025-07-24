@@ -8,9 +8,14 @@ import {
   ParseIntPipe,
   Post,
   Query,
+  Res,
+  UploadedFile,
+  UseInterceptors,
 } from '@nestjs/common';
 import { StudentService } from './student.service';
 import { AddDTO } from './dto/Student.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage, MulterError } from 'multer';
 
 @Controller('student')
 export class StudentController {
@@ -49,5 +54,39 @@ export class StudentController {
   @Get('bioo/:flag')
   getBioBool(@Param('flag', ParseBoolPipe) flag: boolean): string {
     return this.studentService.getBioBool(flag);
+  }
+
+  
+
+  // file upload
+
+  @Post('upload')
+  @UseInterceptors(
+    FileInterceptor('file', {
+      fileFilter: (req, file, cb) => {
+        if (file.originalname.match(/^.*\.(jpg|webp|png|jpeg)$/))
+          cb(null, true);
+        else {
+          cb(new MulterError('LIMIT_UNEXPECTED_FILE', 'image'), false);
+        }
+      },
+      limits: { fileSize: 80000 },
+      storage: diskStorage({
+        destination: './uploads',
+        filename: function (req, file, cb) {
+          cb(null, Date.now() + file.originalname);
+        },
+      }),
+    }),
+  )
+  uploadFile(@UploadedFile() file: Express.Multer.File) {
+    console.log(file);
+  }
+
+  //fetching the file
+
+  @Get('/getimage/:name')
+  getImages(@Param('name') name, @Res() res) {
+    res.sendFile(name, { root: './uploads' });
   }
 }
