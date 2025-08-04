@@ -1,13 +1,22 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { AdminModule } from './Admin/admin.module';
 import { OrganizerModule } from './Organizer/organizer.module';
 
 
 @Module({
-  imports: [AdminModule,OrganizerModule],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: 'localhost',
+      port: 5432,
+      username: 'postgres',
+      password: '1234', 
+      database: 'eventhub_database',
+      entities: [__dirname + '/**/*.entity.{ts,js}'],
+      synchronize: true,
+    }),
+    AdminModule,OrganizerModule
+  ],
 })
 export class AppModule {}
