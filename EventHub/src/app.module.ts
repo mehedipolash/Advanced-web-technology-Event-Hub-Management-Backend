@@ -23,8 +23,8 @@ import { OrganizerModule } from './Organizer/organizer.module';
         port: 587,
         secure: false,
         auth: {
-          user: 'your_email@gmail.com',
-          pass: 'your_app_password',
+          user: 'mehedihasanaiub9235@gmail.com',
+          pass: 'jyjz ekbk eceg xwat',
         },
       },
       defaults: {

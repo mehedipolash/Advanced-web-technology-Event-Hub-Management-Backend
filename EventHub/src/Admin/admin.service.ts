@@ -1,6 +1,8 @@
 // src/Admin/admin.service.ts
 import {
   BadRequestException,
+  HttpException,
+  HttpStatus,
   Injectable,
   NotFoundException,
   UnauthorizedException,
@@ -21,7 +23,7 @@ export class AdminService {
     @InjectRepository(Admin) private readonly adminRepo: Repository<Admin>,
     @InjectRepository(Organizer)
     private readonly orgRepo: Repository<Organizer>,
-    private readonly mailer: MailerService,
+    private readonly mailer: MailerService, // ✅ mailer injected
   ) {}
 
   // 1) Create Admin (+ bcrypt + mail)
@@ -69,7 +71,7 @@ export class AdminService {
   logout(req: any) {
     const adminId = req.session.adminId;
     req.session.destroy(() => {});
-    return { message: 'Logged out', adminId }; // return adminId for clarity
+    return { message: 'Logged out', adminId };
   }
 
   // 4) Me (guarded)
@@ -90,7 +92,7 @@ export class AdminService {
     return safe;
   }
 
-  // 6) Change status (PATCH) + pipe
+  // 6) Change status (PATCH)
   async changeStatus(id: number, dto: ChangeStatusDto) {
     const admin = await this.adminRepo.findOne({ where: { id } });
     if (!admin) throw new NotFoundException('Admin not found');
@@ -108,7 +110,7 @@ export class AdminService {
     return this.adminRepo.find({ where: { age: MoreThan(40) } });
   }
 
-  // 9) Get all (optional name filter)
+  // 9) Get all (optional filter)
   async findAll(q?: string) {
     if (q) {
       return this.adminRepo.find({ where: { fullName: ILike(`%${q}%`) } });
@@ -131,8 +133,7 @@ export class AdminService {
     return { message: 'Deleted' };
   }
 
-  // ---- Relationship ops (Admin <-> Organizer) ----
-  // A) Assign organizer to admin
+  // ---- Admin <-> Organizer Relationship ----
   async assignOrganizer(adminId: number, organizerUsername: string) {
     const admin = await this.adminRepo.findOne({ where: { id: adminId } });
     if (!admin) throw new NotFoundException('Admin not found');
@@ -146,14 +147,12 @@ export class AdminService {
     return this.orgRepo.save(organizer);
   }
 
-  // B) List organizers for an admin
   async listOrganizers(adminId: number) {
     const admin = await this.adminRepo.findOne({ where: { id: adminId } });
     if (!admin) throw new NotFoundException('Admin not found');
     return this.orgRepo.find({ where: { createdBy: { id: adminId } } });
   }
 
-  // C) Unassign organizer (set null)
   async unassignOrganizer(adminId: number, organizerUsername: string) {
     const organizer = await this.orgRepo.findOne({
       where: { username: organizerUsername },
@@ -167,5 +166,23 @@ export class AdminService {
     }
     organizer.createdBy = null;
     return this.orgRepo.save(organizer);
+  }
+
+  // --- Mailer Test ---
+  async sendTestMail(to: string) {
+    try {
+      await this.mailer.sendMail({
+        to,
+        subject: 'Test Email from EventHub',
+        text: 'Hello! This is a test email from your NestJS application.',
+        html: '<b>Hello!</b><br>This is a test email from <i>EventHub</i>.',
+      });
+      return { message: `Email sent to ${to}` };
+    } catch (error) {
+      throw new HttpException(
+        'Email sending failed: ' + error.message,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 }

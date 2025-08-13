@@ -42,7 +42,7 @@ export class AdminController {
   @Post('logout')
   @UseGuards(SessionGuard)
   async logout(@Req() req: any) {
-    const adminInfo = await this.adminService.me(req.session.adminId); // get admin details
+    const adminInfo = await this.adminService.me(req.session.adminId); // get admin details before logout
     req.session.destroy(() => {});
     return { message: 'Logged out', admin: adminInfo };
   }
@@ -53,7 +53,7 @@ export class AdminController {
     return this.adminService.me(req.session.adminId);
   }
 
-  // --- CRUD / filters (8+ routes satisfied) ---
+  // --- CRUD / filters ---
   @Post()
   @UsePipes(new ValidationPipe())
   create(@Body() dto: CreateAdminDto) {
@@ -119,5 +119,11 @@ export class AdminController {
     @Param('username') username: string,
   ) {
     return this.adminService.unassignOrganizer(adminId, username);
+  }
+
+  // --- Mailer test route ---
+  @Post('test-mail')
+  async sendTestMail(@Body('to') to: string) {
+    return this.adminService.sendTestMail(to);
   }
 }
