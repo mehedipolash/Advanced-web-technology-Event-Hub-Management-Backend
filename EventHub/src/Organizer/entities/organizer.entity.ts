@@ -1,6 +1,13 @@
-
-import { Entity, PrimaryColumn, Column, BeforeInsert } from 'typeorm';
+import {
+  Entity,
+  PrimaryColumn,
+  Column,
+  BeforeInsert,
+  ManyToOne,
+} from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
+// import { Admin } from '../../admin/entities/admin.entity';
+import { Admin } from 'src/Admin/entities/admin.entity';
 
 @Entity('organizers')
 export class Organizer {
@@ -16,8 +23,14 @@ export class Organizer {
   @Column({ default: false })
   isActive: boolean;
 
+  @ManyToOne(() => Admin, (admin) => admin.organizers, {
+    nullable: true,
+    onDelete: 'SET NULL',
+  })
+  createdBy?: Admin | null;
+
   @BeforeInsert()
   generateId() {
-    this.id = uuidv4(); // tells TypeORM to run generateId() before saving this entity
+    this.id = uuidv4();
   }
 }
