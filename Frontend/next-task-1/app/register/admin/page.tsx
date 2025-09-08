@@ -55,7 +55,7 @@ export default function AdminRegisterForm() {
       {/* Toast container */}
       <h1 className="text-2xl font-semibold mb-1">Admin Registration</h1>
       <p className="text-sm text-gray-500 mb-6">
-        Give necessary information for Sign-up
+        Enter your information for Sign-up
       </p>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         {/* Full Name */}
