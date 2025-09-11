@@ -18,7 +18,7 @@ export const adminRegisterSchema = z
       .transform(v => Number(v))
       .refine(n => n >= 18 && n <= 70, 'Age must be between 18 and 70'),
 
-    // 1) basic email syntax + 2) require gmail.com
+    
     email: z
       .string()
       .trim()
