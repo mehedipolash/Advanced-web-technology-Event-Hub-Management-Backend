@@ -106,9 +106,9 @@ SESSION_SECRET=supersecretkey
 | --------- | --------------------------------------------- |
 | Framework | [NestJS](https://nestjs.com/)                 |
 | Language  | TypeScript                                    |
-| ORM       | TypeORM / Prisma *(depending on integration)* |
+| ORM       | TypeORM  
 | Testing   | Jest                                          |
-| Linting   | ESLint + Prettier                             |
+| Linting   | Prettier                             |
 
 ---
 
