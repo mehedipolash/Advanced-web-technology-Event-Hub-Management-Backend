@@ -1,8 +1,4 @@
-Great — I’ve explored the **EventHub** project structure. It’s a **NestJS backend** (TypeScript) project with modules like `Admin`, common utilities, DTOs, and guards. Based on this, here’s a **complete professional `README.md`** you can paste directly into your GitHub repository:
 
----
-
-```markdown
 # 🏛️ EventHub
 
 EventHub is a modular, scalable **backend system built with [NestJS](https://nestjs.com/)** that provides a structured foundation for managing events, administrators, and related entities. The project follows clean architecture principles with well-defined modules, DTOs, and services.
