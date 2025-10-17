@@ -153,8 +153,8 @@ This project is licensed under the **MIT License** — feel free to use, modify,
 
 For questions or feedback, feel free to reach out:
 
-**Author:** [Your Name](https://github.com/<your-username>)
-**Email:** [your.email@example.com](mailto:your.email@example.com)
+**Author:** [Md Mehedi Hasan Polash](https://github.com/<mehedipolash>)
+**Email:** [mehedipolash33@gmail.com](mailto:mehedipolash33@gmail.com)
 
 ---
 
